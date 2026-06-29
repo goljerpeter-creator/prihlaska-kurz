@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Prihláška na kurz – Tréning fonematického uvedomovania (Eľkonin)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
+* { box-sizing: border-box; }
+body { margin:0; background:#fff; font-family:'Hanken Grotesk',sans-serif; }
+input, select, textarea, button { font-family: inherit; }
+::placeholder { color:#9fb0ad; }
+select:focus, input:focus, textarea:focus { border-color:#4e9c93; }
+a { color: inherit; }
+.elk-term { display:block; cursor:pointer; }
+.elk-term input { position:absolute; width:1px; height:1px; opacity:0; }
+.elk-termbox { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; background:#fff; border:2px solid #e2eae9; border-radius:16px; padding:24px 26px; transition:border-color .12s, background .12s, box-shadow .12s; }
+.elk-term:hover .elk-termbox { border-color:#bcd9d2; }
+.elk-term input:checked + .elk-termbox { border-color:#4e9c93; background:#eef7f4; box-shadow:0 8px 22px rgba(78,156,147,0.18); }
+.elk-term input:focus-visible + .elk-termbox { outline:3px solid rgba(78,156,147,0.35); outline-offset:2px; }
+.elk-eyebrow { display:block; font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#9fb0ad; margin-bottom:8px; }
+.elk-date { display:block; font-family:'Baloo 2',sans-serif; font-size:26px; font-weight:700; color:#2d3a3a; line-height:1.1; }
+.elk-live { display:flex; align-items:center; gap:8px; margin-top:14px; font-size:13.5px; font-weight:700; color:#3e9b34; }
+.elk-dot { width:8px; height:8px; border-radius:50%; background:#3e9b34; }
+.elk-tick { flex-shrink:0; width:30px; height:30px; border-radius:50%; border:2px solid #cdd9d6; color:transparent; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; }
+.elk-term input:checked + .elk-termbox .elk-tick { background:#4e9c93; border-color:#4e9c93; color:#fff; }
+</style>
+</head>
+<body>
+<div data-screen-label="Prihlásenie na kurz" style="font-family:'Hanken Grotesk',sans-serif; color:#2d3a3a; background:#ffffff;">
+
+  <!-- TOP BAR -->
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 40px; border-bottom:1px solid #eef2f1; background:#ffffff;">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <img src="https://www.shopis.sk/user/documents/upload/shopis-logo-white.png" alt="SHOPIS" style="height:34px; width:auto; display:block; filter:brightness(0);">
+      <span style="font-size:12px; color:#9fb0ad; font-weight:600; border-left:1px solid #e2eae9; padding-left:12px;">Kurzy Eľkonin</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:28px;">
+      <a href="#oferta" style="text-decoration:none; font-size:14.5px; font-weight:600; color:#5a6c69;">O kurze</a>
+      <a href="#terminy" style="text-decoration:none; font-size:14.5px; font-weight:600; color:#5a6c69;">Termíny</a>
+      <a href="#formular" style="text-decoration:none; font-size:14.5px; font-weight:700; color:#fff; background:#4e9c93; padding:10px 20px; border-radius:100px;">Prihlásiť sa</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div style="position:relative; background:linear-gradient(180deg,#f1f8f6 0%,#ffffff 100%); padding:64px 40px 56px; overflow:hidden;">
+    <div style="position:absolute; top:40px; right:-20px; width:280px; height:1px; border-top:2px dashed #c5ddd8;"></div>
+    <div style="position:absolute; bottom:30px; left:-30px; width:240px; height:1px; border-top:2px dashed #d9e8e5;"></div>
+    <div style="max-width:1080px; margin:0 auto; position:relative;">
+      <div style="display:inline-flex; align-items:center; gap:8px; background:#ffffff; border:1.5px solid #d3e6e2; color:#3d847c; font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; padding:7px 16px; border-radius:100px;">Základný kurz · 2-dňový</div>
+      <h1 style="font-family:'Baloo 2',sans-serif; font-weight:700; font-size:48px; line-height:1.1; color:#2d3a3a; margin:20px 0 14px; max-width:20ch;">Tréning fonematického uvedomovania podľa D. B. Eľkonina</h1>
+      <p style="font-size:19px; line-height:1.55; color:#5a6c69; max-width:60ch; margin:0 0 28px;">Predgrafémová a grafémová etapa. Naučte sa pracovať s metódou rozvíjania jazykových schopností u detí predškolského a mladšieho školského veku.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:32px;">
+        <span style="background:#fff; border:1px solid #e2eae9; border-radius:10px; padding:11px 16px; font-size:14px; font-weight:600; color:#3d5450;">📍 Bratislava</span>
+        <span style="background:#fff; border:1px solid #e2eae9; border-radius:10px; padding:11px 16px; font-size:14px; font-weight:600; color:#3d5450;">2 dni · 8:30–16:00</span>
+        <span style="background:#fff; border:1px solid #e2eae9; border-radius:10px; padding:11px 16px; font-size:14px; font-weight:600; color:#3d5450;">Prezenčne</span>
+        <span style="background:#fff; border:1px solid #e2eae9; border-radius:10px; padding:11px 16px; font-size:14px; font-weight:600; color:#3d5450;">Certifikát o absolvovaní</span>
+        <span style="background:#4e9c93; color:#fff; border-radius:10px; padding:11px 18px; font-size:15px; font-weight:700;">199 € <span style="font-weight:500; opacity:0.85; font-size:13px;">s DPH</span></span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:14px;">
+        <a href="#formular" style="text-decoration:none; background:#4e9c93; color:#fff; font-size:16px; font-weight:700; padding:15px 30px; border-radius:100px; box-shadow:0 6px 18px rgba(78,156,147,0.28);">Vybrať termín a prihlásiť sa</a>
+        <a href="#oferta" style="text-decoration:none; background:#fff; color:#3d847c; border:1.5px solid #c5ddd8; font-size:16px; font-weight:700; padding:15px 28px; border-radius:100px;">Čo kurz obsahuje</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMINY -->
+  <form id="prihlaska" action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY_SEM">
+    <input type="hidden" name="subject" value="Nová prihláška na kurz – Eľkonin">
+    <input type="hidden" name="from_name" value="Web shopis.sk – prihláška na kurz">
+    <input type="checkbox" name="botcheck" id="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+  <div id="terminy" style="padding:60px 40px; background:#ffffff;">
+    <div style="max-width:1080px; margin:0 auto;">
+      <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:6px;">
+        <span style="font-family:'Baloo 2',sans-serif; color:#4e9c93; font-size:16px; font-weight:700;">01</span>
+        <h2 style="font-family:'Baloo 2',sans-serif; font-weight:700; font-size:32px; margin:0; color:#2d3a3a;">Vyberte si termín</h2>
+      </div>
+      <p style="font-size:15.5px; color:#7a8a87; margin:0 0 26px;">Kliknite na termín, ktorý si vyberáte. Kapacita je obmedzená; pri naplnení sa môžete prihlásiť ako náhradník.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px;">
+        <label class="elk-term">
+            <input type="radio" name="termin" value="7. – 8. august 2026" required>
+            <span class="elk-termbox">
+              <span>
+                <span class="elk-eyebrow">Termín 1 · Bratislava</span>
+                <span class="elk-date">7. – 8. august 2026</span>
+                <span class="elk-live"><span class="elk-dot"></span>Prihlasovanie spustené</span>
+              </span>
+              <span class="elk-tick">✓</span>
+            </span>
+          </label>
+          <label class="elk-term">
+            <input type="radio" name="termin" value="14. – 15. august 2026" required>
+            <span class="elk-termbox">
+              <span>
+                <span class="elk-eyebrow">Termín 2 · Bratislava</span>
+                <span class="elk-date">14. – 15. august 2026</span>
+                <span class="elk-live"><span class="elk-dot"></span>Prihlasovanie spustené</span>
+              </span>
+              <span class="elk-tick">✓</span>
+            </span>
+          </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMULAR -->
+  <div id="formular" style="padding:60px 40px; background:#f1f8f6;">
+    <div style="max-width:1080px; margin:0 auto;">
+      <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:6px;">
+        <span style="font-family:'Baloo 2',sans-serif; color:#4e9c93; font-size:16px; font-weight:700;">02</span>
+        <h2 style="font-family:'Baloo 2',sans-serif; font-weight:700; font-size:32px; margin:0; color:#2d3a3a;">Prihláška na kurz</h2>
+      </div>
+      <p style="font-size:15.5px; color:#7a8a87; margin:0 0 26px;">Vyplňte údaje a kliknite Odoslať — prihláška príde priamo na info@shopis.sk. Polia označené * sú povinné.</p>
+
+      <div style="display:grid; grid-template-columns:1.6fr 1fr; gap:24px; align-items:start;">
+
+        <!-- ÚČASTNÍK + FAKTURÁCIA -->
+          <div style="background:#fff; border:1px solid #e2eae9; border-radius:18px; padding:34px;">
+            <div id="prihlaska-error" role="alert" style="display:none; margin-bottom:18px; background:#fdecea; border:1px solid #f5cfc9; color:#c0392b; font-size:14px; font-weight:600; padding:12px 16px; border-radius:10px;"></div>
+
+            <div style="font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#4e9c93; margin-bottom:16px;">Účastník</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+              <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Meno a priezvisko *</label><input name="meno" required placeholder="Jana Nováková" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
+              <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">E-mail *</label><input name="email" type="email" required placeholder="jana@skola.sk" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
+              <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Telefón</label><input name="telefon" type="tel" placeholder="+421 ..." style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
+              <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Pracovná pozícia</label><select name="pozicia" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"><option value="">Vyberte...</option><option>Učiteľ/ka ZŠ</option><option>Učiteľ/ka MŠ</option><option>Špeciálny pedagóg</option><option>Logopéd</option><option>Psychológ</option><option>Vychovávateľ/ka</option><option>Asistent pedagóga</option><option>Študent pedagogického odboru</option><option>Iné</option></select></div>
+              <div style="grid-column:1 / -1;"><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Komplet ku kurzu</label><select name="komplet" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"><option value="">Vyberte...</option><option>Komplet už mám</option><option>Chcem objednať komplet</option><option>Osobný odber kompletu na kurze</option><option>Chcem viac informácií</option></select></div>
+            </div>
+
+            <div style="height:1px; background:#eef2f1; margin:28px 0 24px;"></div>
+
+            <div style="font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#4e9c93; margin-bottom:6px;">Fakturačné údaje</div>
+            <p style="font-size:13px; color:#9fb0ad; margin:0 0 16px;">Polia označené * sú povinné. IČO a DIČ vyplňte pri fakturácii na firmu / organizáciu.</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+              <div style="grid-column:1 / -1;"><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Fakturačný subjekt (meno alebo názov organizácie) *</label><input name="fakt_subjekt" required placeholder="ZŠ Komenského / Jana Nováková" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
+              <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">IČO <span style="color:#9fb0ad; font-weight:500;">(pri firme)</span></label><input name="ico" placeholder="napr. 12345678" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
+              <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">DIČ / IČ DPH <span style="color:#9fb0ad; font-weight:500;">(pri firme)</span></label><input name="dic" placeholder="napr. SK1234567890" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
+              <div style="grid-column:1 / -1;"><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Ulica a číslo *</label><input name="ulica" required placeholder="Hlavná 12" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
+              <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Mesto *</label><input name="mesto" required placeholder="Bratislava" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
+              <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">PSČ *</label><input name="psc" required placeholder="811 01" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
+            </div>
+
+            <div style="height:1px; background:#eef2f1; margin:28px 0 24px;"></div>
+
+            <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Poznámka</label><textarea name="poznamka" rows="3" placeholder="Napr. požiadavka na bezlepkové občerstvenie..." style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none; resize:vertical;"></textarea></div>
+
+            <label style="display:flex; gap:11px; align-items:flex-start; margin-top:20px; cursor:pointer;"><input name="gdpr" type="checkbox" value="Súhlasí" required style="width:19px; height:19px; margin-top:2px; accent-color:#4e9c93; flex-shrink:0;"><span style="font-size:13.5px; line-height:1.55; color:#5a6c69;">Súhlasím so spracovaním osobných údajov za účelom registrácie na kurz. *</span></label>
+
+            <button type="submit" style="margin-top:22px; width:100%; background:#4e9c93; color:#fff; font-size:16px; font-weight:700; border:none; padding:16px; border-radius:100px; cursor:pointer; box-shadow:0 6px 18px rgba(78,156,147,0.28);">Odoslať prihlášku</button>
+          </div>
+
+          <!-- RIGHT: info sidebar -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="background:#fff; border:1px solid #e2eae9; border-radius:18px; padding:24px;">
+            <div style="font-family:'Baloo 2',sans-serif; font-size:18px; font-weight:700; color:#2d3a3a; margin-bottom:14px;">Čo nasleduje?</div>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <div style="display:flex; gap:12px;">
+                <span style="flex-shrink:0; width:26px; height:26px; border-radius:50%; background:#eef7f4; color:#3d847c; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;">1</span>
+                <span style="font-size:14px; line-height:1.5; color:#5a6c69;">Vyrozumenie o prihláške príde na <strong>info@shopis.sk</strong> aj s vybraným termínom.</span>
+              </div>
+              <div style="display:flex; gap:12px;">
+                <span style="flex-shrink:0; width:26px; height:26px; border-radius:50%; background:#eef7f4; color:#3d847c; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;">2</span>
+                <span style="font-size:14px; line-height:1.5; color:#5a6c69;">Registráciu <strong>potvrdíme do 7 dní</strong> e-mailom (nie automaticky).</span>
+              </div>
+              <div style="display:flex; gap:12px;">
+                <span style="flex-shrink:0; width:26px; height:26px; border-radius:50%; background:#eef7f4; color:#3d847c; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;">3</span>
+                <span style="font-size:14px; line-height:1.5; color:#5a6c69;">Faktúru a pokyny k platbe pošleme <strong>~mesiac pred kurzom</strong>.</span>
+              </div>
+            </div>
+          </div>
+          <div style="background:#2d3a3a; border-radius:18px; padding:24px; color:#cfe0dd;">
+            <div style="font-size:13px; font-weight:600; color:#8fb5ae; margin-bottom:6px;">Potrebujete poradiť?</div>
+            <a href="mailto:info@shopis.sk" style="text-decoration:none; font-family:'Baloo 2',sans-serif; font-size:18px; font-weight:600; color:#fff;">info@shopis.sk</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  </form>
+  <!-- SUCCESS -->
+  <div id="prihlaska-success" style="display:none; padding:48px 40px; background:#f1f8f6;">
+    <div style="max-width:680px; margin:0 auto; background:#fff; border:1px solid #e2eae9; border-radius:18px; padding:40px; text-align:center;">
+      <div style="width:64px; height:64px; border-radius:50%; background:#e7f5ec; color:#3e9b34; display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:700; margin:0 auto 18px;">✓</div>
+      <div style="font-family:'Baloo 2',sans-serif; font-size:26px; font-weight:700; color:#2d3a3a;">Ďakujeme za prihlášku!</div>
+      <p style="font-size:15.5px; line-height:1.6; color:#5a6c69; margin:12px auto 0;">Prihlášku na termín <strong id="succ-term" style="color:#3d847c;"></strong> sme prijali. Registráciu potvrdíme do 7 dní na e-mail <strong id="succ-email"></strong>. Pokyny k platbe a faktúru zašleme približne mesiac pred začiatkom kurzu.</p>
+    </div>
+  </div>
+
+  <!-- O KURZE / OBSAH -->
+  <div id="oferta" style="padding:64px 40px; background:#ffffff;">
+    <div style="max-width:1080px; margin:0 auto;">
+      <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:22px;">
+        <span style="font-family:'Baloo 2',sans-serif; color:#4e9c93; font-size:16px; font-weight:700;">03</span>
+        <h2 style="font-family:'Baloo 2',sans-serif; font-weight:700; font-size:32px; margin:0; color:#2d3a3a;">O kurze</h2>
+      </div>
+      <p style="font-size:17px; line-height:1.65; color:#4a5b58; max-width:74ch; margin:0 0 34px;">Tento kurz predstavuje základ uchopenia programu rozvíjania jazykových schopností podľa Eľkonina. Učí celý rozsah — predgrafémovú i grafémovú etapu: deti sa učia orientovať sa sluchom v hláskovej štruktúre bežných kratších slov a následne prehlbujú fonematické uvedomovanie aj v spojení so znalosťou písmen a pochopením „techniky" čítania slov.</p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+        <div style="background:#f1f8f6; border-radius:18px; padding:28px 30px;">
+          <div style="font-family:'Baloo 2',sans-serif; font-size:20px; font-weight:700; color:#2d3a3a; margin-bottom:16px;">Cieľ kurzu</div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; gap:11px;"><span style="color:#4e9c93; font-weight:700; flex-shrink:0;">—</span><span style="font-size:15px; line-height:1.55; color:#4a5b58;">Zvládnutie predgrafémovej a grafémovej etapy</span></div>
+            <div style="display:flex; gap:11px;"><span style="color:#4e9c93; font-weight:700; flex-shrink:0;">—</span><span style="font-size:15px; line-height:1.55; color:#4a5b58;">Hlbšie pochopenie jazykových mechanizmov čítania a písania ako predpokladu pre čítanie</span></div>
+            <div style="display:flex; gap:11px;"><span style="color:#4e9c93; font-weight:700; flex-shrink:0;">—</span><span style="font-size:15px; line-height:1.55; color:#4a5b58;">Práca s metodikou u detí predškolského a mladšieho školského veku, s narušenou komunikačnou schopnosťou, s odkladom školskej dochádzky a inými vývinovými poruchami</span></div>
+          </div>
+        </div>
+        <div style="background:#f1f8f6; border-radius:18px; padding:28px 30px;">
+          <div style="font-family:'Baloo 2',sans-serif; font-size:20px; font-weight:700; color:#2d3a3a; margin-bottom:16px;">Pre koho je kurz</div>
+          <p style="font-size:14.5px; line-height:1.55; color:#7a8a87; margin:0 0 14px;">Pre pedagogických pracovníkov, ktorí pracujú s malými skupinami alebo individuálne s deťmi s rizikom pri osvojovaní školských zručností.</p>
+          <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            <span style="background:#fff; border:1px solid #d7e8e4; color:#3d5450; font-size:13px; font-weight:600; padding:7px 13px; border-radius:100px;">Učitelia ZŠ a MŠ</span>
+            <span style="background:#fff; border:1px solid #d7e8e4; color:#3d5450; font-size:13px; font-weight:600; padding:7px 13px; border-radius:100px;">Špeciálni pedagógovia</span>
+            <span style="background:#fff; border:1px solid #d7e8e4; color:#3d5450; font-size:13px; font-weight:600; padding:7px 13px; border-radius:100px;">Logopédi</span>
+            <span style="background:#fff; border:1px solid #d7e8e4; color:#3d5450; font-size:13px; font-weight:600; padding:7px 13px; border-radius:100px;">Psychológovia</span>
+            <span style="background:#fff; border:1px solid #d7e8e4; color:#3d5450; font-size:13px; font-weight:600; padding:7px 13px; border-radius:100px;">Vychovávatelia</span>
+            <span style="background:#fff; border:1px solid #d7e8e4; color:#3d5450; font-size:13px; font-weight:600; padding:7px 13px; border-radius:100px;">Asistenti pedagóga</span>
+            <span style="background:#fff; border:1px solid #d7e8e4; color:#3d5450; font-size:13px; font-weight:600; padding:7px 13px; border-radius:100px;">Študenti ped. odborov</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V CENE -->
+  <div style="padding:60px 40px; background:#f1f8f6;">
+    <div style="max-width:1080px; margin:0 auto;">
+      <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:22px;">
+        <span style="font-family:'Baloo 2',sans-serif; color:#4e9c93; font-size:16px; font-weight:700;">04</span>
+        <h2 style="font-family:'Baloo 2',sans-serif; font-weight:700; font-size:32px; margin:0; color:#2d3a3a;">Čo je v cene 199 €</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+        <div style="background:#fff; border:1px solid #e2eae9; border-radius:18px; padding:28px 30px;">
+          <div style="font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#3e9b34; margin-bottom:16px;">Zahrnuté v cene</div>
+          <div style="display:flex; flex-direction:column; gap:13px;">
+            <div style="display:flex; gap:11px;"><span style="color:#3e9b34; font-weight:700; flex-shrink:0;">✓</span><span style="font-size:15px; line-height:1.55; color:#4a5b58;">Každý deň 2 coffee breaky — káva, čaj, občerstvenie, ovocie, koláče (bezlepkové na vyžiadanie)</span></div>
+            <div style="display:flex; gap:11px;"><span style="color:#3e9b34; font-weight:700; flex-shrink:0;">✓</span><span style="font-size:15px; line-height:1.55; color:#4a5b58;">Handouty s informáciami z prezentácií lektoriek</span></div>
+            <div style="display:flex; gap:11px;"><span style="color:#3e9b34; font-weight:700; flex-shrink:0;">✓</span><span style="font-size:15px; line-height:1.55; color:#4a5b58;">Certifikát o absolvovaní + potvrdenie o účasti pre zamestnávateľa</span></div>
+          </div>
+        </div>
+        <div style="background:#fff; border:1px solid #e2eae9; border-radius:18px; padding:28px 30px;">
+          <div style="font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#b08a3a; margin-bottom:16px;">Nie je v cene</div>
+          <div style="display:flex; flex-direction:column; gap:13px;">
+            <div style="display:flex; gap:11px;"><span style="color:#c9a44a; font-weight:700; flex-shrink:0;">·</span><span style="font-size:15px; line-height:1.55; color:#4a5b58;">Ubytovanie a obed — zabezpečujú si účastníci sami</span></div>
+            <div style="display:flex; gap:11px;"><span style="color:#c9a44a; font-weight:700; flex-shrink:0;">·</span><span style="font-size:15px; line-height:1.55; color:#4a5b58;">Komplet ku kurzu (odporúčaný, potrebný k realizácii metódy) — možný osobný odber na kurze</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KOMPLET -->
+  <div style="padding:56px 40px; background:#ffffff;">
+    <div style="max-width:1080px; margin:0 auto; background:#f1f8f6; border:1px solid #d7e8e4; border-radius:18px; padding:34px 38px;">
+      <div style="font-family:'Baloo 2',sans-serif; font-size:22px; font-weight:700; color:#2d3a3a; margin-bottom:16px;">Komplet ku kurzu</div>
+      <div style="display:flex; flex-direction:column; gap:13px; max-width:82ch;">
+        <p style="margin:0; font-size:15.5px; line-height:1.65; color:#4a5b58;">Zakúpenie kompletu ku kurzu odporúčame, prípadne si priniesť už zakúpený komplet — účastníkom pomáha lepšie sa oboznámiť s obsahom kurzu a zároveň prispieva k lepšiemu pochopeniu celej problematiky.</p>
+        <p style="margin:0; font-size:15.5px; line-height:1.65; color:#4a5b58;">K realizácii metódy / tréningov detí je niektorý z ponúkaných kompletov („Komplet základný" alebo „Komplet pre MŠ") potrebný, nie je možné bez neho pracovať.</p>
+        <p style="margin:0; font-size:15.5px; line-height:1.65; color:#4a5b58;">Ak si chcete zakúpené publikácie vyzdvihnúť na kurze, zvoľte pri objednávke možnosť <strong style="color:#2d3a3a;">„osobný odber na kurze"</strong>. Objednávku môžete spraviť aj počas kurzu a my sa vám ju v rámci možností pokúsime doniesť na kurz.</p>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:22px;">
+        <span style="background:#fff; border:1px solid #d7e8e4; color:#3d5450; font-size:13.5px; font-weight:600; padding:8px 14px; border-radius:100px;">Komplet základný — 160 €</span>
+        <span style="background:#fff; border:1px solid #d7e8e4; color:#3d5450; font-size:13.5px; font-weight:600; padding:8px 14px; border-radius:100px;">Komplet pre MŠ — 175 €</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEKTORKY -->
+  <div style="padding:60px 40px; background:#ffffff;">
+    <div style="max-width:1080px; margin:0 auto;">
+      <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:22px;">
+        <span style="font-family:'Baloo 2',sans-serif; color:#4e9c93; font-size:16px; font-weight:700;">05</span>
+        <h2 style="font-family:'Baloo 2',sans-serif; font-weight:700; font-size:32px; margin:0; color:#2d3a3a;">Lektorky</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+        <div style="background:#f1f8f6; border-radius:18px; padding:26px; text-align:center;">
+          <div style="width:64px; height:64px; border-radius:50%; background:#4e9c93; color:#fff; font-family:'Baloo 2',sans-serif; font-size:22px; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 14px;">MM</div>
+          <div style="font-family:'Baloo 2',sans-serif; font-size:17px; font-weight:700; color:#2d3a3a;">Prof. PhDr. Marína Mikulajová, CSc.</div>
+          <div style="font-size:13.5px; color:#7a8a87; margin-top:4px;">Spoluautorka metodiky</div>
+        </div>
+        <div style="background:#f1f8f6; border-radius:18px; padding:26px; text-align:center;">
+          <div style="width:64px; height:64px; border-radius:50%; background:#4e9c93; color:#fff; font-family:'Baloo 2',sans-serif; font-size:22px; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 14px;">OT</div>
+          <div style="font-family:'Baloo 2',sans-serif; font-size:17px; font-weight:700; color:#2d3a3a;">Mgr. Oľga Tokárová, PhD.</div>
+          <div style="font-size:13.5px; color:#7a8a87; margin-top:4px;">Spoluautorka metodiky</div>
+        </div>
+        <div style="background:#f1f8f6; border-radius:18px; padding:26px; text-align:center;">
+          <div style="width:64px; height:64px; border-radius:50%; background:#4e9c93; color:#fff; font-family:'Baloo 2',sans-serif; font-size:22px; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 14px;">ZS</div>
+          <div style="font-family:'Baloo 2',sans-serif; font-size:17px; font-weight:700; color:#2d3a3a;">PaedDr. Zita Sümegiová</div>
+          <div style="font-size:13.5px; color:#7a8a87; margin-top:4px;">Spoluautorka metodiky</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOBRE VEDIET -->
+  <div style="padding:56px 40px; background:#f1f8f6;">
+    <div style="max-width:1080px; margin:0 auto;">
+      <h2 style="font-family:'Baloo 2',sans-serif; font-weight:700; font-size:24px; margin:0 0 20px; color:#2d3a3a;">Dobré vedieť</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div style="background:#fff; border:1px solid #e2eae9; border-radius:14px; padding:20px 22px; font-size:14.5px; line-height:1.6; color:#5a6c69;"><strong style="color:#2d3a3a;">Forma a dĺžka:</strong> iba prezenčne, 2 dni, zvyčajne 8:30 – cca 16:00. Presný harmonogram po prihlásení.</div>
+        <div style="background:#fff; border:1px solid #e2eae9; border-radius:14px; padding:20px 22px; font-size:14.5px; line-height:1.6; color:#5a6c69;"><strong style="color:#2d3a3a;">Platba:</strong> faktúra s termínom splatnosti príde e-mailom ~mesiac pred kurzom.</div>
+        <div style="background:#fff; border:1px solid #e2eae9; border-radius:14px; padding:20px 22px; font-size:14.5px; line-height:1.6; color:#5a6c69;"><strong style="color:#2d3a3a;">Kapacita a náhradníci:</strong> kapacita je obmedzená. Pri naplnení termínu sa môžete prihlásiť ako náhradník — ozveme sa, keď sa miesto uvoľní.</div>
+        <div style="background:#fff; border:1px solid #e2eae9; border-radius:14px; padding:20px 22px; font-size:14.5px; line-height:1.6; color:#5a6c69;"><strong style="color:#2d3a3a;">Odporúčacia doložka:</strong> metodike udelilo MŠVVaŠ SR odporúčaciu doložku (2014) pre predprimárne vzdelávanie.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="padding:40px; background:#2d3a3a; color:#a9bdb9;">
+    <div style="max-width:1080px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <div>
+        <img src="https://www.shopis.sk/user/documents/upload/shopis-logo-white.png" alt="SHOPIS" style="height:30px; width:auto; display:block; filter:brightness(0) invert(1); opacity:0.92;">
+        <div style="font-size:13px; margin-top:10px;">Intelligent Solutions s.r.o. · Kurzy Eľkonin</div>
+      </div>
+      <div style="display:flex; gap:22px; align-items:center;">
+        <a href="mailto:info@shopis.sk" style="text-decoration:none; font-size:14px; font-weight:600; color:#cfe0dd;">info@shopis.sk</a>
+        <a href="https://www.facebook.com/sk.elkonin" style="text-decoration:none; font-size:14px; font-weight:600; color:#cfe0dd;">Facebook</a>
+        <a href="https://www.instagram.com/elkonin.sk" style="text-decoration:none; font-size:14px; font-weight:600; color:#cfe0dd;">Instagram</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+(function(){
+  var form = document.getElementById('prihlaska');
+  var success = document.getElementById('prihlaska-success');
+  var errBox = document.getElementById('prihlaska-error');
+  if (!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var btn = form.querySelector('button[type=submit]');
+    var prev = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Odosielam…';
+    errBox.style.display = 'none';
+    var data = {};
+    new FormData(form).forEach(function(v,k){ data[k] = v; });
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Accept':'application/json' },
+      body: JSON.stringify(data)
+    }).then(function(r){ return r.json(); }).then(function(json){
+      if (json && json.success) {
+        document.getElementById('succ-term').textContent = data.termin || '';
+        document.getElementById('succ-email').textContent = data.email || '';
+        form.style.display = 'none';
+        success.style.display = 'block';
+        success.scrollIntoView({ behavior:'smooth', block:'center' });
+      } else {
+        throw new Error((json && json.message) || 'send failed');
+      }
+    }).catch(function(){
+      errBox.textContent = 'Prihlášku sa nepodarilo odoslať. Skúste znova, alebo napíšte priamo na info@shopis.sk.';
+      errBox.style.display = 'block';
+      errBox.scrollIntoView({ behavior:'smooth', block:'center' });
+    }).then(function(){
+      btn.disabled = false; btn.textContent = prev;
+    });
+  });
+})();
+</script>
+</body>
+</html>
