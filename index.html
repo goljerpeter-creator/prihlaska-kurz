@@ -90,7 +90,7 @@ a { color: inherit; }
         <h2 style="font-family:'Baloo 2',sans-serif; font-weight:700; font-size:32px; margin:0; color:#2d3a3a;">Vyberte si termín</h2>
       </div>
       <p style="font-size:15.5px; color:#7a8a87; margin:0 0 26px;">Kliknite na termín, ktorý si vyberáte. Kapacita je obmedzená; pri naplnení sa môžete prihlásiť ako náhradník.</p>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px;">
+      <div id="terminy-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px;">
         <label class="elk-term">
             <input type="radio" name="termin" value="7. – 8. august 2026" required>
             <span class="elk-termbox">
@@ -139,9 +139,7 @@ a { color: inherit; }
               <div style="position:relative;"><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Titul za menom</label><input name="titul_za" class="elk-titul" data-titul="za" autocomplete="off" placeholder="napr. PhD., CSc." style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
               <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">E-mail *</label><input name="email" type="email" required placeholder="jana@skola.sk" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
               <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Telefón</label><input name="telefon" type="tel" placeholder="+421 ..." style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"></div>
-              <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Pracovná pozícia</label><select name="pozicia" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"><option value="">Vyberte...</option><option>Učiteľ/ka ZŠ</option><option>Učiteľ/ka MŠ</option><option>Špeciálny pedagóg</option><option>Logopéd</option><option>Psychológ</option><option>Vychovávateľ/ka</option><option>Asistent pedagóga</option><option>Študent pedagogického odboru</option><option>Iné</option></select></div>
-              <div style="grid-column:1 / -1;"><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Komplet ku kurzu</label><select name="komplet" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"><option value="">Vyberte...</option><option>Komplet už mám</option><option>Chcem objednať komplet</option><option>Osobný odber kompletu na kurze</option></select></div>
-            </div>
+              <div><label style="display:block; font-size:13.5px; font-weight:600; color:#3d5450; margin-bottom:7px;">Pracovná pozícia</label><select name="pozicia" style="width:100%; padding:13px 15px; border:1.5px solid #d7e2e0; border-radius:10px; font-size:15px; color:#2d3a3a; background:#fff; outline:none;"><option value="">Vyberte...</option><option>Učiteľ/ka ZŠ</option><option>Učiteľ/ka MŠ</option><option>Špeciálny pedagóg</option><option>Logopéd</option><option>Psychológ</option><option>Vychovávateľ/ka</option><option>Asistent pedagóga</option><option>Študent pedagogického odboru</option><option>Iné</option></select></div>            </div>
 
             <div style="height:1px; background:#eef2f1; margin:28px 0 24px;"></div>
 
@@ -359,12 +357,34 @@ a { color: inherit; }
   var closedTextEl = document.getElementById('prihlaska-zatvorene-text');
   function showOpen(){ if(loadingEl) loadingEl.style.display='none'; if(closedEl) closedEl.style.display='none'; form.style.display=''; }
   function showClosed(msg){ if(loadingEl) loadingEl.style.display='none'; form.style.display='none'; if(msg && closedTextEl) closedTextEl.textContent=msg; if(closedEl) closedEl.style.display=''; }
+  // termíny z Google tabuľky (Nastavenia B3–B5); pri chybe ostanú karty napevno v HTML
+  function renderTerms(terms){
+    try {
+      var list = (terms||[]).map(function(t){ return String(t).trim(); }).filter(Boolean).slice(0,3);
+      if (!list.length) return;
+      var grid = document.getElementById('terminy-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      list.forEach(function(label, i){
+        var lab = document.createElement('label'); lab.className = 'elk-term';
+        var inp = document.createElement('input'); inp.type = 'radio'; inp.name = 'termin'; inp.value = label; if (i === 0) inp.required = true;
+        var box = document.createElement('span'); box.className = 'elk-termbox';
+        box.innerHTML = '<span><span class="elk-eyebrow"></span><span class="elk-date"></span><span class="elk-live"><span class="elk-dot"></span>Prihlasovanie spustené</span></span><span class="elk-tick">✓</span>';
+        box.querySelector('.elk-eyebrow').textContent = 'Termín ' + (i+1) + ' · Bratislava';
+        box.querySelector('.elk-date').textContent = label;
+        lab.appendChild(inp); lab.appendChild(box);
+        grid.appendChild(lab);
+      });
+      if (list.length === 1) grid.style.gridTemplateColumns = 'minmax(300px, 520px)';
+      else grid.style.gridTemplateColumns = '';
+    } catch(e){}
+  }
   var statusDone = false;
   var statusTimer = setTimeout(function(){ if(!statusDone){ statusDone=true; showOpen(); } }, 4000); // fail-open po 4s
   try {
     fetch('https://script.google.com/macros/s/AKfycbwkdWwp5dGZMDH3hgfYqZKkGeN0J3ZgnY23Q47dYlGhAHd0TwsfCNq9s3GcOpEgdD-z4w/exec', { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({ check:'status' }) })
       .then(function(r){ return r.json(); })
-      .then(function(j){ if(statusDone) return; statusDone=true; clearTimeout(statusTimer); if(j && j.open===false){ showClosed(j.message); } else { showOpen(); } })
+      .then(function(j){ if(statusDone) return; statusDone=true; clearTimeout(statusTimer); if(j && j.terms) renderTerms(j.terms); if(j && j.open===false){ showClosed(j.message); } else { showOpen(); } })
       .catch(function(){ if(statusDone) return; statusDone=true; clearTimeout(statusTimer); showOpen(); });
   } catch(e){ if(!statusDone){ statusDone=true; clearTimeout(statusTimer); showOpen(); } }
 
