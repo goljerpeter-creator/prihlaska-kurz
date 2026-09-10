@@ -451,14 +451,19 @@ a { color: inherit; }
     new FormData(form).forEach(function(v,k){ data[k] = v; });
     ['titul_pred','titul_za'].forEach(function(k){ if(data[k]) data[k]=data[k].replace(/[\s,]+$/,''); });
     data.sub_id = subId;
-    var ctrl = ('AbortController' in window) ? new AbortController() : null;
-    var abortTimer = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 30000);
-    fetch('https://script.google.com/macros/s/AKfycbwkdWwp5dGZMDH3hgfYqZKkGeN0J3ZgnY23Q47dYlGhAHd0TwsfCNq9s3GcOpEgdD-z4w/exec', {
-      method: 'POST',
-      headers: { 'Content-Type':'text/plain;charset=utf-8' },
-      body: JSON.stringify(data),
-      signal: ctrl ? ctrl.signal : undefined
-    }).then(function(r){ return r.json(); }).then(function(json){
+    // odpoveď Apps Scriptu pri dlhšom spracovaní občas vypadne; vďaka sub_id je opakovanie bezpečné (žiadna duplicita)
+    function send(){
+      var ctrl = ('AbortController' in window) ? new AbortController() : null;
+      var abortTimer = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 30000);
+      return fetch('https://script.google.com/macros/s/AKfycbwkdWwp5dGZMDH3hgfYqZKkGeN0J3ZgnY23Q47dYlGhAHd0TwsfCNq9s3GcOpEgdD-z4w/exec', {
+        method: 'POST',
+        headers: { 'Content-Type':'text/plain;charset=utf-8' },
+        body: JSON.stringify(data),
+        signal: ctrl ? ctrl.signal : undefined
+      }).then(function(r){ clearTimeout(abortTimer); return r.json(); }, function(e){ clearTimeout(abortTimer); throw e; });
+    }
+    send().catch(function(){ return new Promise(function(res){ setTimeout(res, 1500); }).then(send); })
+    .then(function(json){
       if (json && json.result === 'closed') { showClosed(json.message); return; }
       if (json && json.result === 'success') {
         subId = newSubId();
@@ -475,7 +480,6 @@ a { color: inherit; }
       errBox.style.display = 'block';
       errBox.scrollIntoView({ behavior:'smooth', block:'center' });
     }).then(function(){
-      clearTimeout(abortTimer);
       btn.disabled = false; btn.textContent = prev;
     });
   });
