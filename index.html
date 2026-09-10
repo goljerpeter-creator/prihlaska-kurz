@@ -91,23 +91,13 @@ a { color: inherit; }
       </div>
       <p style="font-size:15.5px; color:#7a8a87; margin:0 0 26px;">Kliknite na termín, ktorý si vyberáte. Kapacita je obmedzená; pri naplnení sa môžete prihlásiť ako náhradník.</p>
       <div id="terminy-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px;">
+        <!-- náhradný termín: zobrazí sa len keď tabuľka neodpovie; inak sa prepíše termínmi z tabuľky (Nastavenia B3–B5) -->
         <label class="elk-term">
-            <input type="radio" name="termin" value="7. – 8. august 2026" required>
+            <input type="radio" name="termin" value="30. – 31. október 2026" required>
             <span class="elk-termbox">
               <span>
                 <span class="elk-eyebrow">Termín 1 · Bratislava</span>
-                <span class="elk-date">7. – 8. august 2026</span>
-                <span class="elk-live"><span class="elk-dot"></span>Prihlasovanie spustené</span>
-              </span>
-              <span class="elk-tick">✓</span>
-            </span>
-          </label>
-          <label class="elk-term">
-            <input type="radio" name="termin" value="14. – 15. august 2026" required>
-            <span class="elk-termbox">
-              <span>
-                <span class="elk-eyebrow">Termín 2 · Bratislava</span>
-                <span class="elk-date">14. – 15. august 2026</span>
+                <span class="elk-date">30. – 31. október 2026</span>
                 <span class="elk-live"><span class="elk-dot"></span>Prihlasovanie spustené</span>
               </span>
               <span class="elk-tick">✓</span>
@@ -380,11 +370,11 @@ a { color: inherit; }
     } catch(e){}
   }
   var statusDone = false;
-  var statusTimer = setTimeout(function(){ if(!statusDone){ statusDone=true; showOpen(); } }, 4000); // fail-open po 4s
+  var statusTimer = setTimeout(function(){ if(!statusDone){ statusDone=true; showOpen(); } }, 10000); // fail-open po 10s (Apps Script studený štart trvá aj 5–8 s)
   try {
     fetch('https://script.google.com/macros/s/AKfycbwkdWwp5dGZMDH3hgfYqZKkGeN0J3ZgnY23Q47dYlGhAHd0TwsfCNq9s3GcOpEgdD-z4w/exec', { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({ check:'status' }) })
       .then(function(r){ return r.json(); })
-      .then(function(j){ if(statusDone) return; statusDone=true; clearTimeout(statusTimer); if(j && j.terms) renderTerms(j.terms); if(j && j.open===false){ showClosed(j.message); } else { showOpen(); } })
+      .then(function(j){ var late = statusDone; statusDone=true; clearTimeout(statusTimer); if(j && j.terms) renderTerms(j.terms); if(j && j.open===false){ showClosed(j.message); } else if(!late) { showOpen(); } }) // neskorá odpoveď (po fail-open) stále aktualizuje termíny a stav
       .catch(function(){ if(statusDone) return; statusDone=true; clearTimeout(statusTimer); showOpen(); });
   } catch(e){ if(!statusDone){ statusDone=true; clearTimeout(statusTimer); showOpen(); } }
 
@@ -446,6 +436,10 @@ a { color: inherit; }
   Array.prototype.forEach.call(faktBtns, function(b){ b.addEventListener('click', function(){ setFakt(b.getAttribute('data-typ')); }); });
   setFakt('firma');
 
+  // sub_id: rovnaké pre opakovaný pokus tej istej prihlášky -> skript nezapíše duplicitu, ak prvý pokus prešiel, ale odpoveď sa stratila
+  function newSubId(){ return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + '-' + Math.random().toString(36).slice(2); }
+  var subId = newSubId();
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
     if (!form.checkValidity()) { form.reportValidity(); return; }
@@ -456,13 +450,18 @@ a { color: inherit; }
     var data = {};
     new FormData(form).forEach(function(v,k){ data[k] = v; });
     ['titul_pred','titul_za'].forEach(function(k){ if(data[k]) data[k]=data[k].replace(/[\s,]+$/,''); });
+    data.sub_id = subId;
+    var ctrl = ('AbortController' in window) ? new AbortController() : null;
+    var abortTimer = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 30000);
     fetch('https://script.google.com/macros/s/AKfycbwkdWwp5dGZMDH3hgfYqZKkGeN0J3ZgnY23Q47dYlGhAHd0TwsfCNq9s3GcOpEgdD-z4w/exec', {
       method: 'POST',
       headers: { 'Content-Type':'text/plain;charset=utf-8' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      signal: ctrl ? ctrl.signal : undefined
     }).then(function(r){ return r.json(); }).then(function(json){
       if (json && json.result === 'closed') { showClosed(json.message); return; }
       if (json && json.result === 'success') {
+        subId = newSubId();
         document.getElementById('succ-term').textContent = data.termin || '';
         document.getElementById('succ-email').textContent = data.email || '';
         form.style.display = 'none';
@@ -476,6 +475,7 @@ a { color: inherit; }
       errBox.style.display = 'block';
       errBox.scrollIntoView({ behavior:'smooth', block:'center' });
     }).then(function(){
+      clearTimeout(abortTimer);
       btn.disabled = false; btn.textContent = prev;
     });
   });
